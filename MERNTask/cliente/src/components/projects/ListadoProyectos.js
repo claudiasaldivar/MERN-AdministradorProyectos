@@ -1,4 +1,5 @@
 import React, {useContext, useEffect} from 'react';
+import { CSSTransition, TransitionGroup} from 'react-transition-group';
 
 import Proyecto from './Proyecto';
 
@@ -11,6 +12,7 @@ const ListadoProyectos = () => {
 
     useEffect(() => {
         obtenerProyectos()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
     //Revisar si proyectos tiene contenido
@@ -20,12 +22,19 @@ const ListadoProyectos = () => {
         <ul
             className="listado-proyectos"
         >
-            {proyectos.map(proyecto => (
-                <Proyecto 
-                    key={proyecto.id}
-                    proyecto={proyecto}
-                />
-            ))}
+            <TransitionGroup>
+                {proyectos.map(proyecto => (
+                    <CSSTransition
+                        key={proyecto.id}
+                        classNames="proyecto"
+                        timeout={200}
+                    >
+                        <Proyecto 
+                            proyecto={proyecto}
+                        />
+                    </CSSTransition>
+                ))}
+            </TransitionGroup>
         </ul>
      );
 }
